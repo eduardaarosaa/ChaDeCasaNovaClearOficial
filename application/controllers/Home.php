@@ -39,6 +39,7 @@ class Home extends CI_Controller {
 	}
 
 	public function getConfirm(){
+
 		$this->load->helper('url');
 		$data = array(
 			'id_produto' => $this->input->post('id_produto'),
@@ -64,7 +65,6 @@ class Home extends CI_Controller {
 
 		}
 	}
-
 	public function getPresentesAll(){
 
 		$this->load->helper('url');
@@ -79,18 +79,23 @@ class Home extends CI_Controller {
 
 		$update = $this->HomeModel->getUpdatePresente($data);
 		if($update){
-			$sendEmail = $this->sendEmail($nomeConfirmado,$email);
+			$sendEmail = $this->sendEmail($nomeConfirmado,$email, $idProduto);
 			if($sendEmail == true){
-				var_dump('Enviado com sucesso!').die();
+				return true;
 			}
 			return true;
 		}else{
-			var_dump('error').die();
 			return false;
+
 		}
 	}
 
-	public function sendEmail($nomeConfirmado,$email){
+	public function sendEmail($nomeConfirmado,$email, $idProduto){
+			$presente = $this->HomeModel->getPresenteEscolhido($idProduto);
+			$nomeProduto = $presente[0]->nome;
+			$detalhes = $presente[0]->descricao;
+			$imagemProduto = $presente[0]->imagem;
+
 			$emailDestinary = $email;
 			$destiny = $emailDestinary;
 			$reply = "Resposta";
@@ -118,9 +123,9 @@ class Home extends CI_Controller {
                 <tbody><tr>
               
                 <td style="padding:50px;">
-                <p><b><span style="color:#303363;font-size:13.5pt;font-family:Montserrat;">Olá, ' . $nomeConfirmado .'</span></b></p>
-                <p style="font-size:11pt;font-family:Calibri,sans-serif;margin:0;"><span style="font-family:Montserrat;">&nbsp;</span></p>
-                <p><span style="font-size:11.5pt;font-family:inherit; color: #303363">Muito Obrigada por confirmar sua presença em meu chá de casa nova.<br>
+                <p><b><span style="color:#303363;font-size:13.5pt;font-family:inherit;">Olá, ' . $nomeConfirmado .'</span></b></p>
+                <p style="font-size:11pt;font-family:inherit,sans-serif;margin:0;"><span style="font-family:inherit;">&nbsp;</span></p>
+                <p><span style="font-size:11.5pt;font-family:inherit; color: #303363; font-weight: 500">Muito Obrigada por confirmar sua presença em meu chá de casa nova.<br>
                 <br>
                 Será dia XX de XXX de 2020 as 00h00, no UP LAGO DOS PATOS no salão de festas, no endereço:
                 R. Francisco Pereira, 466 - Vila Galvão.
@@ -144,7 +149,10 @@ class Home extends CI_Controller {
                 <td colspan="5" style="padding:0;">
                 <div style="margin-top:24.75pt;margin-bottom:24.75pt; font-family: inherit;">
                 <div align="center" style="font-size:11pt;font-family:inherit,sans-serif;text-align:center;margin:0;">
-                <span style="font-family:Montserrat;">
+                <span style="font-family:inherit; color: white;" align="center">
+                <p>O presente escolhido por você foi o (a): ' . $nomeProduto.'</p>
+                <img src="'. $imagemProduto .'" width="200px;">
+                <p>'. $detalhes .'</p>
                 <hr align="center" width="100%" size="2" style="color:#969696;">
                 </span></div>
                 <div style="color:white;margin-top:24.75pt; margin-bottom:24.75pt; font-family: inherit;">
@@ -178,6 +186,9 @@ class Home extends CI_Controller {
                 <span style="font-family:Montserrat;">
                 <hr align="center" width="100%" size="2" style="color:#969696;">
                 </span></div>
+                <div class="assinatura" align="right" style="color:white; font-family: inherit;">
+					<p>Eduarda Rosa</p>                
+                </div>
                 </div>
                 </td>
                 </tr>
@@ -241,7 +252,7 @@ class Home extends CI_Controller {
 		}
 
 		public function sendEmailContato($nome,$assunto,$emailContato,$mensagem){
-
+			$header = "Content-type:text/html; charset=UTF-8";
 			$email = 'eduardacirina@gmail.com';
 			$destiny = $email;
 			$reply = "Resposta";
@@ -250,7 +261,7 @@ class Home extends CI_Controller {
 			$html = '<!DOCTYPE html>
                 <html>
                 <head>
-                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" CHARSET="UTF-8">
+                <meta http-equiv="Content-Type"  Content-Type: text/html; charset="UTF-8">
                 </head>
                 <body>
                 <!-- cabecalho -->

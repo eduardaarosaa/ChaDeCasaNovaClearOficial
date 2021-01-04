@@ -26,6 +26,10 @@
             let idProduto = $("#idProduto").val();
             console.log(idProduto);
         });
+        function confirmar(idProduto){
+			let idProdutoModal  = idProduto;
+            document.getElementById("myProduto").value = idProdutoModal;
+		}
 	</script>
 
 </head>
@@ -90,7 +94,7 @@
 						<?php if($ativoProduto==0){
 								echo '<button class="btn btn-primary btn-presentear" id="btn-presentear" type="submit" disabled>Indisponível</button>';
 						}else{
-							echo '<button class="btn btn-primary btn-presentear" data-toggle="modal" data-target="#exampleModal" id="btn-presentear" value="'. $idProduto .'" type="submit">Presentear</button>';
+							echo '<button class="btn btn-primary btn-presentear btn-disponivel" data-toggle="modal" data-target="#exampleModal" id="btn-presentear"  value="'. $idProduto .'" type="submit" onclick="confirmar('. $idProduto .')">Presentear</button>';
 						}
 						?>
 
@@ -122,11 +126,13 @@
 
 				<?php
 				echo form_open_multipart('Home/getConfirm');
+
 				?>
 				<form>
 					<label>Nome:</label>
 					<br>
-					<input type="hidden" name="id_produto" value="3">
+
+					<input type="hidden" name="id_produto" id="myProduto">
 					<input type="text" class="form-control" placeholder="Nome" name="nome_confirmado">
 
 					<br>

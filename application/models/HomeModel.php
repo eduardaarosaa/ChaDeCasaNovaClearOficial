@@ -28,4 +28,9 @@ class HomeModel extends CI_Model
 		return $this->db->update('presentes', $data);
 	}
 
+	public function getPresenteEscolhido($data){
+
+		return $this->db->query("select * from presentes where id ='$data'")->result();
+	}
+
 }
