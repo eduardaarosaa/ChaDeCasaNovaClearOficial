@@ -23,6 +23,8 @@
             if(ativo == 0){
                 $('#btn-presentear').prop('disabled', true);
             }
+            let idProduto = $("#idProduto").val();
+            console.log(idProduto);
         });
 	</script>
 
@@ -58,7 +60,7 @@
 	</div>
 </header>
 
-<div class="da-section first-presentes" id="presentes">
+<div class="da-section first-presentes page-presentes" id="presentes">
 	<div class="container">
 		<div class="h3 text-center" data-aos="fade-up">Presentes</div>
 
@@ -76,19 +78,17 @@
 		$descricaoProduto = $value->descricao;
 		$imagemProduto = $value->imagem;
 		$ativoProduto = $value->ativo;
-
 		?>
-
 			<div class="col-md-4">
 				<div class="card d-block mb-3"><img class="card-img-top img-produtos" src="<?php echo $imagemProduto; ?>"
 													alt="image"/>
 					<div class="card-body text-center">
-						<input type="text" name="idProduto" value="<?php echo $idProduto;?>">
+						<input type="hidden" name="idProduto" id="idProduto" value="<?php echo $idProduto;?>">
 						<input type="hidden" name="ativo" id="ativoProduto" value="<?php echo $ativoProduto;?>">
 						<div class="h5"><?php echo $nomeProduto; ?></div>
 						<p class="text-muted"><?php echo $descricaoProduto;?></p>
 						<?php if($ativoProduto==0){
-								echo '<button class="btn btn-primary btn-presentear" id="btn-presentear" type="submit">Indisponível</button>';
+								echo '<button class="btn btn-primary btn-presentear" id="btn-presentear" type="submit" disabled>Indisponível</button>';
 						}else{
 							echo '<button class="btn btn-primary btn-presentear" data-toggle="modal" data-target="#exampleModal" id="btn-presentear" value="'. $idProduto .'" type="submit">Presentear</button>';
 						}
@@ -110,6 +110,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
+
 				<h5 class="modal-title" id="exampleModalLabel">Muito Obrigada <img src="../../images/silhueta-de-formato-simples-de-coracao (2).png" width="16px"></h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
 					<span aria-hidden="true">&times;</span>
@@ -119,28 +120,32 @@
 			<div class="modal-body">
 				<p>Você pode comprar o presente escolhido em qualquer loja de sua preferência e levar no dia do chá.</p>
 
+				<?php
+				echo form_open_multipart('Home/getConfirm');
+				?>
 				<form>
-					<div class="form-group">
-						<label for="recipient-name" class="col-form-label">Nome:</label>
-						<input type="text" class="form-control" id="recipient-name">
+					<label>Nome:</label>
+					<br>
+					<input type="hidden" name="id_produto" value="3">
+					<input type="text" class="form-control" placeholder="Nome" name="nome_confirmado">
+
+					<br>
+					<label>E-mail:</label>
+					<br>
+					<input class="form-control" type="email" placeholder="exemplo@exemplo.com.br" name="email">
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+						<button type="submit" class="btn btn-primary">Confirmar</button>
 					</div>
-					<div class="form-group">
-						<label for="recipient-name" class="col-form-label">E-mail:</label>
-						<input type="text" class="form-control" id="recipient-name">
-					</div>
-					<div class="form-group">
-						<input type="text" class="form-control" id="id_produto" value="<?php echo $idProduto; ?>">
-					</div>
+
 				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-				<button type="button" class="btn btn-primary">Enviar</button>
-			</div>
+				<?php
+				echo form_close();
+				?>
+		</div>
 		</div>
 	</div>
 </div>
-
 
 <div class="da-contact" id="contato">
 	<div class="da-contact-detail" data-aos="zoom-in" data-aos-duration="1000">

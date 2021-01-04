@@ -169,10 +169,10 @@
               <p class="text-muted">' . $descricaoProduto . '</p>';
 								if ($ativoProduto == 0) {
 
-									echo ' <button class="btn btn-primary btn-presentear" id="btn-presentear" type="submit">Indisponível</button>';
+									echo ' <button class="btn btn-primary btn-presentear" id="btn-presentear" type="submit" disabled>Indisponível</button>';
 
 								} else {
-									echo ' <button class="btn btn-primary btn-presentear" id="btn-presentear" type="submit">Presentear</button>';
+									echo ' <button class="btn btn-primary btn-presentear" data-toggle="modal" data-target="#exampleModal" id="btn-presentear" type="submit">Presentear</button>';
 								}
 								echo '</div>
           </div>
@@ -196,6 +196,47 @@
 			</div>
 		</div>
 
+	</div>
+	<!--Modal Presentear -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+
+					<h5 class="modal-title" id="exampleModalLabel">Muito Obrigada <img src="images/silhueta-de-formato-simples-de-coracao (2).png" width="16px"></h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<p>Você pode comprar o presente escolhido em qualquer loja de sua preferência e levar no dia do chá.</p>
+
+					<?php
+					echo form_open_multipart('Home/getConfirm');
+					?>
+					<form>
+						<label>Nome:</label>
+						<br>
+						<input type="hidden" name="id_produto" value="3">
+						<input type="text" class="form-control" placeholder="Nome" name="nome_confirmado">
+
+						<br>
+						<label>E-mail:</label>
+						<br>
+						<input class="form-control" type="email" placeholder="exemplo@exemplo.com.br" name="email">
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+							<button type="submit" class="btn btn-primary">Confirmar</button>
+						</div>
+
+					</form>
+					<?php
+					echo form_close();
+					?>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<!-- Link to open the modal -->
@@ -368,30 +409,32 @@
 					<div class="h4 pb-4">Se tiver alguma dúvida entre em contato comigo (:</div>
 					<div class="row">
 						<div class="col-md-7 col-sm-12 mb-3">
-							<div class="da-contact-message">
-								<form action="https://formspree.io/eduardacirina@gmail.com" method="POST">
+
+									<?php
+									echo form_open_multipart('Home/getContato');
+									?>
 									<div class="row">
 										<div class="col">
-											<input class="mr-3 form-control" type="text" name="first-name"
+											<input class="mr-3 form-control" type="text" name="nome"
 												   placeholder="Nome" required="required"/>
 										</div>
 									</div>
 									<br>
 									<div class="row mb-3">
 										<div class="col">
-											<input class="form-control" type="text" name="Subject" placeholder="Assunto"
+											<input class="form-control" type="text" name="assunto" placeholder="Assunto"
 												   required="required"/>
 										</div>
 									</div>
 									<div class="row mb-3">
 										<div class="col">
-											<input class="form-control" type="email" name="_replyto"
+											<input class="form-control" type="email" name="email"
 												   placeholder="E-mail" required="required"/>
 										</div>
 									</div>
 									<div class="row mb-3">
 										<div class="col">
-											<textarea class="form-control" name="message" placeholder="Sua Mensagem"
+											<textarea class="form-control" name="mensagem" placeholder="Sua Mensagem"
 													  rows="4" required="required"></textarea>
 										</div>
 									</div>
@@ -400,8 +443,9 @@
 											<button class="btn btn-primary" type="submit">Enviar</button>
 										</div>
 									</div>
-								</form>
-							</div>
+								<?php
+								echo form_close();
+								?>
 						</div>
 						<div class="col-md-5">
 							<p>Você também pode entrar em contato pelo meu telefone via whatsApp.</p>
@@ -441,6 +485,25 @@
 </footer>
 <div id="scrolltop">
 	<button class="btn btn-primary"><span class="icon"><i class="fas fa-angle-up fa-2x"></i></span></button>
+</div>
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				...
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
